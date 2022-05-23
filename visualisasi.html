@@ -10,6 +10,7 @@
     <meta name="description" content="Your Description Here">
     <meta name="keywords" content="free boostrap, bootstrap template, freebies, free theme, free website, free portfolio theme, portfolio, personal, cv">
     <meta name="author" content="Jenn, ThemeForces.com">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     
     <!-- Favicons
     ================================================== -->
@@ -38,7 +39,9 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
     <script type="text/javascript" src="js/modernizr.custom.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -92,331 +95,355 @@
     <center>
     <h1>VISUALISASI</h1>
     <br>
-    <h2>Jumlah Perusahaan Ikut Tender</h2>
     <div style= "width: 600px">
         <canvas id="myChart"></canvas>
     </div>
     <br></center></br>
+    <br>
 
     <center>
-    <h2>Jumlah Tender</h2>
     <div style= "width: 600px">
         <canvas id="myChart2"></canvas>
     </div>
     <br></center></br>
+    <br>
 
     <center>
-    <h2>Jumlah Tender Selesai / Gagal</h2>
-    <div style= "width:400px">
+    <div style= "width:600px">
         <canvas id="myChart3"></canvas>
     </div>
     <br></center></br>
+    <br>
 
     <center>
-        <h2>5 Peserta Terbanyak</h2>
         <div style= "width: 600px">
             <canvas id="myChart4"></canvas>
         </div>
     <br></center></br>
+    <br>
 
     <center>
-        <h2>5 Pemenang dengan Harga Penawaran Tertinggi</h2>
         <div style= "width: 600px">
             <canvas id="myChart5"></canvas>
         </div>
     <br></center></br>
+    <br>
 
     <center>
-        <h2>Jumlah Jenis Pengadaan</h2>
         <div style= "width: 600px">
             <canvas id="myChart6"></canvas>
         </div>
     <br></center></br>
+    <br>
 
     <center>
-        <h2>5 Tender Terbesar Berdasarkan Nilai HPS</h2>
-        <div style= "width: 500px">
+        <div style= "width: 600px">
             <canvas id="myChart7"></canvas>
         </div>
     <br></center></br>
+    <br>
 
     <center>
-        <h2>5 Tender Terkecil Berdasarkan Nilai HPS</h2>
-        <div style= "width: 500px">
+        <div style= "width: 600px">
             <canvas id="myChart8"></canvas>
         </div>
     <br></center></br>
+    <br>
 
     <!-- chart 1 -->
     <script>
-        const labels = [
-            '2017',
-            '2018',
-            '2019',
-            '2020',
-            '2021',
-        ];
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'Jumlah Perusahaan Ikut Tender',
-                backgroundColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                borderColor: 'rgb(255, 99, 132)',
-                data: [5342,5502,5138,4727, 6208],
-            }]
-        };
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {}
-        };
-    
-        var myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
-        </script>
+      var ctx = document.getElementById('myChart');
+      var chart = new Chart(ctx, {
+          type: 'line',
+          data:{
+              datasets:[{
+                borderColor: "#DDA0DD",
+                fill: false,
+                tension: 0.1
+              }
+          ]},
+          plugins: [ChartDataSource],
+          options: {
+              title : {
+                  display : true,
+                  text: 'JUMLAH PERUSAHAAN IKUT TENDER',
+                  fontSize: 17
+              },
+              plugins :{
+                  datasource: {
+                      url: 'VisualisasiData.xlsx',
+                      rowMapping: 'index',
+                      datasetLabels: "'Jumlah Perusahaan'!B1",
+                      indexLabels: 'Jumlah Perusahaan!A2:A6',
+                      data: 'Jumlah Perusahaan!B2:B6'
+                  }
+              }
+              
+          }
+      });
+    </script>
 
     <!-- chart 2 -->
     <script>
-        const labels2 = [
-            '2017',
-            '2018',
-            '2019',
-            '2020',
-            '2021',
-        ];
-        const data2 = {
-            labels: labels2,
-            datasets: [{
+      var ctx2 = document.getElementById("myChart2");
+      var chart2 = new Chart (ctx2, {
+          type: 'line',
+          data: {
+              datasets: [{
                 label: 'Jumlah Tender',
-                backgroundColor: '#BC8F8F',
-                borderColor: '#BC8F8F',
-                data: [943, 1017, 1022, 490, 608],
-            }]
-        };
-        const config2 = {
-            type: 'line',
-            data: data2,
-            options: {}
-        };
+                borderColor: '#87CEEB',
+                fill : false,
+                tension: 0.1
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: 'JUMLAH TENDER',
+              fontSize: 17
+            },
 
-        var myChart = new Chart(
-            document.getElementById('myChart2'),
-            config2
-        );
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                indexLabels: "'Jumlah Tender'!A2:A6",
+                data: "'Jumlah Tender'!B2:B6"
+            }
+          }
+        }
+      });
     </script>
 
     <!-- chart 3 -->
     <script>
-        const labels3 = [
-            'Tender Selesai',
-            'Tender Gagal',
-        ];
-        const data3 = {
-            labels: labels3,
-            datasets: [{
-                label: 'Jumlah Tender',
+      var ctx3 = document.getElementById("myChart3");
+      var chart3 = new Chart (ctx3, {
+          type: 'bar',
+          data: {
+              datasets: [{
                 backgroundColor: ['#9999CC','#DB7093'],
                 borderColor: ['#9999CC','#DB7093'],
-                data: [3357, 719],
-            }]
-        };
-        const config3 = {
-            type: 'pie',
-            data: data3,
-            options: {}
-        };
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: 'TENDER SELESAI DAN GAGAL',
+              fontSize: 17
+            },
 
-        var myChart = new Chart(
-            document.getElementById('myChart3'),
-            config3
-        );
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                datasetLabels: "'Jml tender selesai dan gagal'!B1",
+                indexLabels: "'Jml tender selesai dan gagal'!A2:A3",
+                data: "'Jml tender selesai dan gagal'!B2:B3"
+            }
+          }
+        }
+      });
     </script>
 
     <!-- chart 4 -->
     <script>
-        const labels4 = [
-            'APBD 2020',
-            'APBD 2020',
-            'APBD 2021',
-            'APBD 2021',
-            'APBD 2021',
-        ];
-        const data4 = {
-        labels: labels4,
-        datasets: [{
-            axis: 'y',
-            label: '5 Peserta Terbanyak',
-            data: [389, 383, 344, 325, 307],
-            fill: false,
-            backgroundColor: [
+      var ctx4 = document.getElementById("myChart4");
+      var chart4 = new Chart (ctx4, {
+          type: 'bar',
+          data: {
+              datasets: [{
+                backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgb(148, 0, 211, 0.2)',
                 'rgb(255, 255, 0, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
-                'rgb(50, 205, 50, 0.2)'
-            ],
-            borderColor: [
+                'rgb(50, 205, 50, 0.2)'],
+                borderColor: [
                 'rgb(255, 99, 132)',
                 'rgb(148, 0, 211)',
                 'rgb(255, 205, 86)',
                 'rgb(75, 192, 192)',
                 'rgb(50, 205, 50)'
-            ],
-            borderWidth: 1
-        }]
-        };
-        const config4 = {
-            type: 'bar',
-            data: data4,
-            options: {
-            indexAxis: 'y',
-        }
-        };
+                ],
+                borderWidth: 1
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: 'PESERTA TERBANYAK',
+              fontSize: 17
+            },
 
-        var myChart = new Chart(
-            document.getElementById('myChart4'),
-            config4
-        );
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                datasetLabels: "'5 Peserta Terbanyak'!B1",
+                indexLabels: "'5 Peserta Terbanyak'!A2:A6",
+                data: "'5 Peserta Terbanyak'!B2:B6"
+            }
+          }
+        }
+      });
     </script>
 
     <!-- chart 5 -->
     <script>
-        const labels5 = [
-            'PT. GARIS PUTIH SEJAJAR',
-            'PT. BRANTAS ABIPRAYA(PERSERO)',
-            'PT. JAVA DESAIN CONSULTAN',
-            'PT. ADHI PERSADA GEDUNG',
-            'PT. DUTA MAS INDAH'
-        ];
-        const data5 = {
-            labels: labels5,
-            datasets: [{
-                label: 'Jumlah Perusahaan Ikut Tender',
-                backgroundColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                borderColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                data: [109037051430.51, 109037051430.51, 106466328000, 106466328000, 84420000000],
-            }]
-        };
-        const config5 = {
-            type: 'polarArea',
-            data: data5,
-            options: {}
-        };
-    
-        var myChart = new Chart(
-            document.getElementById('myChart5'),
-            config5
-        );
-        </script>
+      var ctx5 = document.getElementById("myChart5");
+      var chart5 = new Chart (ctx5, {
+          type: 'horizontalBar',
+          data: {
+              datasets: [{
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgb(148, 0, 211, 0.2)',
+                'rgb(255, 255, 0, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgb(50, 205, 50, 0.2)'
+                ],
+                borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(148, 0, 211)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(50, 205, 50)'
+                ],
+                borderWidth: 1
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: '5 PEMENANG DENGAN HARGA PENAWARAN TERTINGGI',
+              fontSize: 17
+            },
+
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                datasetLabels: "'5 pmng dg hrg pnwrn tertingi'!B1",
+                indexLabels: "'5 pmng dg hrg pnwrn tertingi'!A2:A6",
+                data: "'5 pmng dg hrg pnwrn tertingi'!B2:B6"
+            }
+          }
+        }
+      });
+    </script>
 
     <!-- chart 6 -->
     <script>
-        const labels6 = [
-            'Jasa Lainnya',
-            'Pengadaan Barang',
-            'Pekerjaan Konstruksi',
-            'Jasa Konsultansi Badan Usaha'
-        ]
-        const data6 = {
-        labels: labels6,
-        datasets: [{
-            label: 'Jumlah Jenis Pengadaan',
-            data: [599, 1308, 1560, 608],
-            backgroundColor: [
-            'rgb(70, 130, 180, 0.2)',
-            'rgb(210, 180, 140, 0.2)',
-            'rgb(219, 112, 147, 0.2)',
-            'rgb(128, 0, 128, 0.2)',
-            ],
-            borderColor: [
-            'rgb(70, 130, 180)',
-            'rgb(210, 180, 140)',
-            'rgb(219, 112, 147)',
-            'rgb(128, 0, 128)',
-            ],
-            borderWidth: 1
-        }]
-        };
-        const config6 = {
-            type: 'bar',
-            data: data6,
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
-                    }
-                }
+      var ctx6 = document.getElementById("myChart6");
+      var chart6 = new Chart (ctx6, {
+          type: 'horizontalBar',
+          data: {
+              datasets: [{
+                fill: false,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgb(148, 0, 211, 0.2)',
+                'rgb(255, 255, 0, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                ],
+                borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(148, 0, 211)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                ],
+                borderWidth: 1     
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: 'JENIS PENGADAAN',
+              fontSize: 17
             },
-        };
 
-        var myChart = new Chart(
-            document.getElementById('myChart6'),
-            config6
-        );
-        </script>
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                datasetLabels: "'Jumlah Jenis Pengadaan'!B1",
+                indexLabels: "'Jumlah Jenis Pengadaan'!A2:A5",
+                data: "'Jumlah Jenis Pengadaan'!B2:B5"
+            }
+          }
+        }
+      });
+    </script>
 
-        <!-- chart 7 -->
+<!-- chart 7 -->
     <script>
-        const labels7 = [
-            '2019(14658042)',
-            '2020(20402042)',
-            '2021(20686042)',
-            '2020(20788042)',
-            '2021(17883042)',
-        ];
-        const data7 = {
-            labels: labels7,
-            datasets: [{
-                label: '5 Tender Terbesar Berdasarkan Nilai HPS',
+      var ctx7 = document.getElementById("myChart7");
+      var chart7 = new Chart (ctx7, {
+          type: 'bar',
+          data: {
+              datasets: [{
                 backgroundColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                borderColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                data: [166575683686,133387976868,133387976868,118708131819,118708131819],
-            }]
-        };
-        const config7 = {
-            type: 'doughnut',
-            data: data7,
-            options: {}
-        };
-    
-        var myChart = new Chart(
-            document.getElementById('myChart7'),
-            config7
-        );
-        </script>
+                borderColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE']
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: '5 TENDER DENGAN NILAI HPS TERBESAR',
+              fontSize: 17
+            },
 
-        <!-- chart 8 -->
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                datasetLabels: "'5 Tender Terbesar(HPS)'!B1",
+                indexLabels: "'5 Tender Terbesar(HPS)'!A2:A6",
+                data: "'5 Tender Terbesar(HPS)'!B2:B6"
+            }
+          }
+        }
+      });
+    </script>
+
+    <!-- chart 8 -->
     <script>
-        const labels8 = [
-            '2018(13452042)',
-            '2018(13582042)',
-            '2017(12578042)',
-            '2017(12577042)',
-            '2017(12576042)',
-        ];
-        const data8 = {
-            labels: labels8,
-            datasets: [{
-                label: '5 Tender Terkecil Berdasarkan Nilai HPS',
+      var ctx8 = document.getElementById("myChart8");
+      var chart8 = new Chart (ctx8, {
+          type: 'bar',
+          data: {
+              datasets: [{
                 backgroundColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                borderColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE'],
-                data: [200000,54752500,71940000,71940000,71940000],
-            }]
-        };
-        const config8 = {
-            type: 'bar',
-            data: data8,
-            options: {}
-        };
+                borderColor: ['#F08080','#CC99CC','#FFB6C1','skyblue','#B6F9CE']
+          }
+        ]},
+          plugins: [ChartDataSource],
+          options: {
+            title: {
+              display: true,
+              text: '5 TENDER DENGAN NILAI HPS TERKECIL',
+              fontSize: 17
+            },
 
-        var myChart = new Chart(
-            document.getElementById('myChart8'),
-            config8
-        );
-        </script>
-
+            plugins: {
+              datasource: {
+                url: 'VisualisasiData.xlsx',
+                rowMapping: 'index',
+                datasetLabels: "'5 Tender Terkecil(HPS)'!B1",
+                indexLabels: "'5 Tender Terkecil(HPS)'!A2:A6",
+                data: "'5 Tender Terkecil(HPS)'!B2:B6"
+            }
+          }
+        }
+      });
+    </script>
 
     <!-- Contact Section -->
     <div id="contact">
